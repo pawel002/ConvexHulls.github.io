@@ -1,5 +1,5 @@
 import { animationSpeed } from "../app.js";
-import { orient, sleep, drawLine  } from './helpers.js'; 
+import { orient, sleep, drawLine, drawPoints, clearCanvas  } from './helpers.js'; 
 
 function min_angle(a, b, c) {
     if (a[0] === b[0] && a[1] === b[1]) {
@@ -23,7 +23,14 @@ function min_angle(a, b, c) {
     return c;
 }
   
-export async function jarvis(ctx, points) {
+export async function jarvis(ctx, addedPoints, generatedPoints) {
+
+    clearCanvas(ctx);
+    if (addedPoints.length > 0) drawPoints(ctx, addedPoints, '#00FF00');
+    if (generatedPoints.length > 0) drawPoints(ctx, generatedPoints, 'black');
+
+    var points = [].concat(addedPoints, generatedPoints);
+
     var start = points.reduce((minPoint, point) => {
         if (point[1] < minPoint[1]) {
             return point;
@@ -40,16 +47,17 @@ export async function jarvis(ctx, points) {
         points.forEach(p => {
             point = min_angle(start, point, p);
         });
-    start = point;
-    if (hull[0] === point) {
-        break;
-    }
-    hull.push(point);
+        start = point;
+        if (hull[0] === point) break;
+
+        hull.push(point);
+
+
     } 
 
     for (let i = 0; i < hull.length; i++) {
         drawLine(ctx, hull[i], hull[(i + 1) % hull.length], 'green', 2);
-        console.log(animationSpeed);
+        drawPoints(ctx, hull.slice(i, i+2), '#FF0000')
         await sleep(animationSpeed);
     }
 }

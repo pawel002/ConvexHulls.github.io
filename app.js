@@ -1,15 +1,19 @@
 'use strict'
 
 import { jarvis } from "./algorithms/jarvis.js";
+import { clearCanvas, drawPoints } from "./algorithms/helpers.js";
+import { grahams } from "./algorithms/grahams.js";
 
 export const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 
-let slider = document.getElementById("animationSlider");
-let generatePointsButton = document.getElementById("generatePointsButton");
-let visualizeButton = document.getElementById("visualizeButton");
+var slider = document.getElementById("animationSlider");
+var generatePointsButton = document.getElementById("generatePointsButton");
+var visualizeButton = document.getElementById("visualizeButton");
+var selectedAlgorithm =  document.getElementById("selectAlgorithm");
 
-var points = [];
+var generatedPoints = [];
+var addedPoints = [];
 var animationSpeed = 10;
 export {animationSpeed};
 
@@ -18,34 +22,16 @@ slider.oninput = function() {
 }
 
 function generatePoints(){
-    clearCanvas();
-
+    clearCanvas(ctx);
     var numberOfPoints = document.getElementById('generatePointsNumber').value;
 
-    points = [];
+    generatedPoints = [];
     for (let i = 0; i < numberOfPoints; i++) {
-        points.push([Math.random(), Math.random()]);
+        generatedPoints.push([Math.random(), Math.random()]);
     }
-    console.log(points);
 
-    drawPoints();
-}
-
-function clearCanvas(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-function drawPoints(){
-    points.forEach(function(point) {
-        const x = canvas.width*(0.05 + point[0] * 0.9);
-        const y = canvas.height*(0.05 + point[1] * 0.9);
-  
-        ctx.beginPath();
-        ctx.arc(x, y, 2, 0, 2 * Math.PI, false);
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = '#FF0000';
-        ctx.stroke();
-    });
+    drawPoints(ctx, generatedPoints, 'black');
+    drawPoints(ctx, addedPoints, '#00FF00');
 }
 
 canvas.addEventListener('click', function(event) {
@@ -55,7 +41,7 @@ canvas.addEventListener('click', function(event) {
     var canvasWidth = canvas.width;
     var canvasHeight = canvas.height;
 
-    points.push([(x / canvasWidth - 0.05) * 10.0 / 9.0, (y / canvasHeight - 0.05) * 10.0 / 9.0]);
+    addedPoints.push([(x / canvasWidth - 0.05) * 10.0 / 9.0, (y / canvasHeight - 0.05) * 10.0 / 9.0]);
 
     ctx.beginPath();
     ctx.arc(x, y, 2, 0, 2 * Math.PI, false);
@@ -63,12 +49,16 @@ canvas.addEventListener('click', function(event) {
     ctx.strokeStyle = '#00FF00';
     ctx.stroke();
 
-    console.log(points);
 });
 
 // main function
 function visualize(){
-    jarvis(ctx, points);
+
+    if (selectedAlgorithm.options[selectedAlgorithm.selectedIndex].text == "Jarvis")
+        jarvis(ctx, addedPoints, generatedPoints);
+
+    if (selectedAlgorithm.options[selectedAlgorithm.selectedIndex].text == "Grahams")
+        grahams(ctx, addedPoints, generatedPoints);
 }
 
 
