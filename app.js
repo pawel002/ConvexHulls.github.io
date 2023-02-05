@@ -3,6 +3,8 @@
 import { jarvis } from "./algorithms/jarvis.js";
 import { clearCanvas, drawPoints } from "./algorithms/helpers.js";
 import { grahams } from "./algorithms/grahams.js";
+import { upperlower } from "./algorithms/upperlower.js";
+import { quickhull } from "./algorithms/quickhull.js";
 
 export const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
@@ -59,6 +61,12 @@ function visualize(){
 
     if (selectedAlgorithm.options[selectedAlgorithm.selectedIndex].text == "Grahams")
         grahams(ctx, addedPoints, generatedPoints);
+
+    if (selectedAlgorithm.options[selectedAlgorithm.selectedIndex].text == "Upper-Lower")
+        upperlower(ctx, addedPoints, generatedPoints);
+
+    if (selectedAlgorithm.options[selectedAlgorithm.selectedIndex].text == "Quickhull")
+        quickhull(ctx, addedPoints, generatedPoints);
 }
 
 

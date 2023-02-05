@@ -35,14 +35,18 @@ export async function grahams(ctx, addedPoints, generatedPoints) {
 
     let hull = [start, ...points.slice(0, 2)];
     
-    for (let i = 0; i < points.length; i++) {
+    let i = 2;
+    while (i < points.length) {
         let val = orient(hull[hull.length - 2], hull[hull.length - 1], points[i]);
     
         if (val == 0) {
             hull.pop();
             hull.push(points[i]);
-        } else if (val == 1)
+            i += 1;
+        } else if (val == 1){
             hull.push(points[i]);
+            i += 1;
+        }
         else
             hull.pop();
 
