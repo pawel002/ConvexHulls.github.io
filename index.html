@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Convex Hulls</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+
+    <body>
+
+        <div class='title'> Convex Hulls Algorithms </div>
+
+        <input class = "btn" id="generatePointsButton" type="button" value="Generate Points"/>
+
+        <label> Enter number of points: </label>
+        <input class="text" id="generatePointsNumber" name="generatePointsNumber"> <br>
+        
+        <label> Animation Speed (ms): </label>
+        <input type="range" min="1" max="1000" value="10" id="animationSlider"> <br>
+
+        <label> Selects Algorithm: </label>
+
+        <select class="algorithms">
+            <option value="volvo">Jarvis</option>
+            <option value="saab">Grahams</option>
+            <option value="mercedes">Quickhull</option>
+            <option value="audi">Upper-Lower</option>
+            <option value="audi">Divide and Conquer</option>
+            <option value="audi">Increment</option>
+            <option value="audi">Chan</option>
+        </select> <br>
+
+        <input class = "btn" id="visualizeButton" type="button" value="Visualize"/>
+
+        <canvas id="myCanvas" width="1200" height="600"></canvas>
+
+        <script type="module" src="app.js" defer></script>
+        <script type="module" src="algorithms/helpers.js" defer></script>
+        <script type="module" src="algorithms/jarvis.js" defer></script>
+    </body>
+
+
+
+</html>
